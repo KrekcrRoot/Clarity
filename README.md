@@ -36,7 +36,7 @@ int main() {
 
     Console console{};
 
-    auto hello = Executor::make("hello", [](const Command& command){
+    auto hello = Executor::make("hello", [](){
         std::cout << "Hello, World!" << std::endl;
     });
 
@@ -49,14 +49,14 @@ int main() {
 
 ```
 
-After that command "/hello" will be avaible
+After that command "/hello" will be available
 
 ```
 >> /hello
 Hello, World!
 ```
 
-**Interrupts** is user input that start from any character, they don't need prefix
+**Interrupts** is user input that start from any character, they don't need to prefix
 
 just change function to "pushInterrupt"
 ```cpp 
@@ -72,14 +72,44 @@ Another way to declare commands into Console.\
 You don't need to push it into Console.
 
 ```cpp
-console.makeCommand("hello", [](const Command& command){
+console.make("hello", [](){
     std::cout << "Hello, World!" << std::endl;
-});
+}, CommandType::Default);
 
-console.makeInterrupt("test", [](const Command& command){
+console.make("test", [](){
     std::cout << "Interrupt test" << std::endl;
+}, CommandType::Interrupt);
+```
+
+**Example of getting arguments from user input**
+```cpp
+auto calc = Executor::make("calc", [](const Command& command) {
+
+    auto arguments = command.getArguments();
+
+    if(arguments.size() < 2) {
+        std::cerr << "Wrong number of arguments\n";
+        return;
+    }
+
+    int res = 0;
+    for (const auto &el: arguments) {
+        res += std::stoi(el);
+    }
+
+    std::cout << res << "\n";
+
 });
 ```
+
+```
+>> /calc 12
+Wrong number of arguments
+
+>> /calc 75 25
+100
+```
+
 ## Installation
 
 CMakeLists.txt

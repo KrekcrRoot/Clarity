@@ -41,7 +41,7 @@ std::string Command::getCommandName() const {
     return this->body.substr(0, this->body.find(' '));
 }
 
-std::vector<std::string> Command::getAttributes() const {
+[[maybe_unused]] std::vector<std::string> Command::getArguments() const {
 
     if(!this->isValid()) {
         throw std::runtime_error("[!] Command not valid");
@@ -66,6 +66,6 @@ std::vector<std::string> Command::getAttributes() const {
 
 }
 
-std::string Command::getRaw() const {
+[[maybe_unused]] std::string Command::getRaw() const {
     return this->body;
 }

@@ -16,19 +16,32 @@ namespace clarity {
     class Console {
 
     public:
+
+//        Constructors
+
         explicit Console(const char& _prefix = '/');
-        void init();
+
+//        Initialization
+
+        [[maybe_unused]] void init();
+
+//        Add commands
+
         void push(const std::shared_ptr<Executor>& executor);
         void pushInterrupt(const std::shared_ptr<Executor>& executor);
 
-        std::shared_ptr<Executor> makeCommand(
-                const string& commandName,
-                const function<void(const Command&)>& func
-                );
+//        Create commands and interrupters
 
-        std::shared_ptr<Executor> makeInterrupt(
+        [[maybe_unused]] std::shared_ptr<Executor> make(
                 const string& commandName,
-                const function<void(const Command&)>& func
+                const function<void(const Command&)>& func,
+                CommandType type
+        );
+
+        [[maybe_unused]] std::shared_ptr<Executor> make(
+                const string& commandName,
+                const function<void()>& func,
+                CommandType type
         );
 
     private:

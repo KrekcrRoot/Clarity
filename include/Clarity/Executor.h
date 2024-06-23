@@ -13,25 +13,48 @@ using namespace std;
 
 namespace clarity {
 
+    enum ExecutorType {
+        Void,
+        WithCommand,
+    };
+
     class Executor {
 
     public:
+
+//        Constructors
+
         explicit Executor(
             const string& commandName,
             const function<void(const Command&)>& func
         );
 
+        explicit Executor(
+            const string& commandName,
+            const function<void()>& func
+        );
+
+        static shared_ptr<Executor> make(
+                const string& commandName,
+                const function<void(const Command&)>& func
+        );
+
+        static shared_ptr<Executor> make(
+                const string& commandName,
+                const function<void()>& func
+        );
+
+//        Callers
+
         void exec(const Command&);
         [[nodiscard]] shared_ptr<Command> getCommand() const;
 
-        static shared_ptr<Executor> make(
-            const string& commandName,
-            const function<void(const Command&)>& func
-        );
 
     private:
         shared_ptr<Command> command;
-        function<void(const Command&)> body;
+        function<void(const Command&)> funcWithCommand;
+        function<void()> funcWithoutCommand;
+        const ExecutorType type;
 
     };
 

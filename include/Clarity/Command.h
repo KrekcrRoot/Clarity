@@ -12,17 +12,22 @@
 
 namespace clarity {
 
+    enum CommandType {
+        Default,
+        Interrupt,
+    };
+
     class Command {
 
     public:
         explicit Command(const std::string& _body);
         [[nodiscard]] bool isValid() const;
 
-        [[nodiscard]] std::string getRaw() const;
+        [[nodiscard, maybe_unused]] std::string getRaw() const;
 
 //        Get metadata
         [[nodiscard]] std::string getCommandName() const;
-        [[nodiscard]] std::vector<std::string> getAttributes() const;
+        [[nodiscard, maybe_unused]] std::vector<std::string> getArguments() const;
 
 //        Operators
         bool operator==(const Command& a) const;
